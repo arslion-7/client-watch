@@ -1,28 +1,30 @@
-import { initDeepAR } from '@/configs/deepARConfig';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import * as deepar from 'deepar';
 
 const DeepARComponent = () => {
-  const arContainerRef = useRef(null);
-
   useEffect(() => {
-    async function initOfInit() {
-      await initDeepAR();
+    async function some() {
+      const deepAR = await deepar.initialize({
+        licenseKey: import.meta.env.VITE_DEEPAR_APP_KEY,
+        // @ts-expect-error
+        canvas: document.getElementById('deepar-canvas'),
+        // effect: 'src/effects/Omega_f.deepar',
+        effect: 'src/effects/ready/Omega_f.deepar'
+        // effect: 'src/effects/TitonEffect.deepar'
+        // effect: 'https://cdn.jsdelivr.net/npm/deepar/effects/aviators'
+        // effect: 'src/effects/Elephant_Trunk.deepar',
+        // effect: 'src/effects/Omega_f.deepar',
+      });
+
+      console.log('deepAR', deepAR);
     }
-
-    initOfInit();
+    some();
   }, []);
-
-  // ... rest of your component
 
   return (
     <div>
       <h1>DeepAR with React</h1>
-      {/* AR Preview Container */}
-      <div
-        id='deepar-div'
-        ref={arContainerRef} // Connect the ref to the element
-        style={{ width: '640px', height: '480px', background: 'black' }}
-      />
+      <canvas id='deepar-canvas' width='1280' height='720'></canvas>
     </div>
   );
 };

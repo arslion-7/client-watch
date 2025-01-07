@@ -11,6 +11,15 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
+#deepar-div {
+  width: 100%;
+  height: auto;
+  max-width: 640px;
+  max-height: 480px;
+  background: black; /* Adjust based on your design */
+}
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
