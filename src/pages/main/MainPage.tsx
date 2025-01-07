@@ -1,32 +1,28 @@
-import initializeDeepAR from '@/configs/deepARConfig';
-import { useEffect, useRef } from 'react'; // Import initialization function
-import * as deepar from 'deepar';
+import { initDeepAR } from '@/configs/deepARConfig';
+import { useEffect, useRef } from 'react';
 
 const DeepARComponent = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const deepARRef = useRef<deepar.DeepAR | null>(null);
+  const arContainerRef = useRef(null);
 
   useEffect(() => {
-    const initialize = async () => {
-      const deepARInstance = await initializeDeepAR();
-      if (deepARInstance) {
-        deepARRef.current = deepARInstance;
-      }
-    };
+    async function initOfInit() {
+      await initDeepAR();
+    }
 
-    initialize();
-
-    return () => {
-      // Cleanup function (optional)
-      if (deepARRef.current) {
-        // Add any necessary cleanup for DeepAR instance (e.g., stop video, shutdown)
-      }
-    };
+    initOfInit();
   }, []);
+
+  // ... rest of your component
 
   return (
     <div>
-      <canvas ref={canvasRef} style={{ width: '640px', height: '360px' }} />
+      <h1>DeepAR with React</h1>
+      {/* AR Preview Container */}
+      <div
+        id='deepar-div'
+        ref={arContainerRef} // Connect the ref to the element
+        style={{ width: '640px', height: '480px', background: 'black' }}
+      />
     </div>
   );
 };
