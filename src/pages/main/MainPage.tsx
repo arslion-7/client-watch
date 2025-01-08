@@ -12,6 +12,8 @@ interface IWatch {
 const watchesCollectionRef = collection(db, 'watches');
 
 const DeepARComponent = () => {
+  const [selectedWatch, setSelectedWatch] = useState<IWatch>();
+
   const [watches, setWatches] = useState<IWatch[]>([]);
 
   // Use useMemo to memoize the query function only if db or watchesCollectionRef changes
@@ -43,19 +45,30 @@ const DeepARComponent = () => {
         // @ts-expect-error
         canvas: document.getElementById('deepar-canvas'),
         // effect: 'src/effects/ready/Omega_f.deepar',
-        effect: watches[0].url,
+        effect: selectedWatch?.url
+          .replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+          .replace('dl=0', 'dl=1'),
       });
 
       console.log('deepAR', deepAR);
     }
     some();
-  }, [watches]);
+  }, [watches, selectedWatch]);
 
   console.log('watches', watches);
+  console.log('selectedWatch', selectedWatch);
 
   return (
     <div>
-      <h1>DeepAR with React</h1>
+      {watches.map((watch) => (
+        <button
+          key={watch.id}
+          style={{ margin: '10px' }}
+          onClick={() => setSelectedWatch(watch)}
+        >
+          {watch.name}
+        </button>
+      ))}
       <canvas id='deepar-canvas' width='1280' height='720'></canvas>
     </div>
   );
