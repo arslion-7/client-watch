@@ -42,18 +42,14 @@ const DeepARComponent = () => {
         licenseKey: import.meta.env.VITE_DEEPAR_APP_KEY,
         // @ts-expect-error
         canvas: document.getElementById('deepar-canvas'),
-        // effect: 'src/effects/Omega_f.deepar',
-        effect: 'src/effects/ready/Omega_f.deepar',
-        // effect: 'src/effects/TitonEffect.deepar'
-        // effect: 'https://cdn.jsdelivr.net/npm/deepar/effects/aviators'
-        // effect: 'src/effects/Elephant_Trunk.deepar',
-        // effect: 'src/effects/Omega_f.deepar',
+        // effect: 'src/effects/ready/Omega_f.deepar',
+        effect: watches[0].url,
       });
 
       console.log('deepAR', deepAR);
     }
     some();
-  }, []);
+  }, [watches]);
 
   console.log('watches', watches);
 
