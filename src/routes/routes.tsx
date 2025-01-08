@@ -7,12 +7,14 @@ import AuthLayout from '@/layouts/AuthLayout';
 import SignUp from '@/pages/auth/SignUp';
 import SignIn from '@/pages/auth/SignIn';
 import MainPage from '@/pages/main/MainPage';
+import Watches from '@/pages/watches/Watches';
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path='/' element={<App />}>
         <Route index element={<MainPage />} />
+        <Route path='watches' element={<Watches />} />
       </Route>
       <Route element={<AuthLayout />}>
         <Route path={PATHS.SIGNUP} element={<SignUp />} />
