@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import * as deepar from 'deepar';
 import { db } from '@/configs/firebaseConfig';
 import { getDocs, collection } from 'firebase/firestore';
@@ -13,6 +13,8 @@ const watchesCollectionRef = collection(db, 'watches');
 
 const DeepARComponent = () => {
   const [selectedWatch, setSelectedWatch] = useState<IWatch>();
+
+  const deepARRef = useRef<deepar.DeepAR>();
 
   const [watches, setWatches] = useState<IWatch[]>([]);
 
@@ -45,18 +47,25 @@ const DeepARComponent = () => {
         // @ts-expect-error
         canvas: document.getElementById('deepar-canvas'),
         // effect: 'src/effects/ready/Omega_f.deepar',
-        effect: selectedWatch?.url
-          .replace('www.dropbox.com', 'dl.dropboxusercontent.com')
-          .replace('dl=0', 'dl=1'),
       });
-
+      deepARRef.current = deepAR;
       console.log('deepAR', deepAR);
     }
     some();
-  }, [watches, selectedWatch]);
+  }, [watches]);
 
   console.log('watches', watches);
   console.log('selectedWatch', selectedWatch);
+
+  useEffect(() => {
+    if (selectedWatch) {
+      deepARRef.current?.switchEffect(
+        selectedWatch.url
+          .replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+          .replace('dl=0', 'dl=1')
+      );
+    }
+  }, [selectedWatch]);
 
   return (
     <div>
