@@ -86,8 +86,25 @@ const DeepARComponent = () => {
     }
   }, [selectedWatch]);
 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // const [width, setWidth] = useState();
+  // const [height, setHeight] = useState();
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      canvasRef.current.width = window.innerWidth;
+      canvasRef.current.height = window.innerHeight;
+    }
+  }, []);
+
   return (
-    <div>
+    <div
+    // style={{
+    //   width: '100vw',
+    //   height: '100vh'
+    // }}
+    >
       <h1 className='text-3xl font-bold underline'>Select watch</h1>
       {watches.map((watch) => (
         <button
@@ -111,10 +128,13 @@ const DeepARComponent = () => {
         <LoadingSpinner text='Bring your model to life' />
       </div>
       <canvas
-        style={{ display: isLoadingDeepARInit ? 'none' : 'block' }}
+        ref={canvasRef}
+        style={{
+          display: isLoadingDeepARInit ? 'none' : 'block'
+        }}
         id='deepar-canvas'
-        width='100%'
-        height='100%'
+        // width='720px'
+        // height='720px'
       ></canvas>
     </div>
   );
