@@ -113,8 +113,8 @@ const DeepARComponent = () => {
       <canvas
         style={{ display: isLoadingDeepARInit ? 'none' : 'block' }}
         id='deepar-canvas'
-        width='1280'
-        height='720'
+        width='100%'
+        height='100%'
       ></canvas>
     </div>
   );
