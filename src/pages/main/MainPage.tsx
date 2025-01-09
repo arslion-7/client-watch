@@ -86,17 +86,17 @@ const DeepARComponent = () => {
     }
   }, [selectedWatch]);
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  // const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // const [width, setWidth] = useState();
   // const [height, setHeight] = useState();
 
-  useEffect(() => {
-    if (canvasRef.current) {
-      canvasRef.current.width = window.innerWidth;
-      canvasRef.current.height = window.innerHeight;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (canvasRef.current) {
+  //     canvasRef.current.width = window.innerWidth;
+  //     canvasRef.current.height = window.innerHeight;
+  //   }
+  // }, []);
 
   return (
     <div
@@ -128,13 +128,13 @@ const DeepARComponent = () => {
         <LoadingSpinner text='Bring your model to life' />
       </div>
       <canvas
-        ref={canvasRef}
+        // ref={canvasRef}
         style={{
           display: isLoadingDeepARInit ? 'none' : 'block'
         }}
         id='deepar-canvas'
-        // width='720px'
-        // height='720px'
+        width='480px'
+        height='720px'
       ></canvas>
     </div>
   );
