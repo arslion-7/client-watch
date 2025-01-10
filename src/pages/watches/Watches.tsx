@@ -1,42 +1,53 @@
-import { useEffect, useState } from 'react';
-import { db } from '@/configs/firebaseConfig';
-import { getDocs, collection } from 'firebase/firestore';
+import { useEffect, useMemo, useState } from 'react';
+import { getDocs } from 'firebase/firestore';
+import { useNavigate } from 'react-router';
+import { watchesCollectionRef } from '@/configs/firebaseConfig';
+import { IWatch } from '@/models/watchModel';
 
-interface IWatch {
-  id: string;
-  name: string;
-}
+const DeepARComponent = () => {
+  const navigate = useNavigate();
 
-export default function Watches() {
   const [watches, setWatches] = useState<IWatch[]>([]);
 
-  const watchesCollectionRef = collection(db, 'watches');
-
-  useEffect(() => {
-    const getWatches = async () => {
+  // Use useMemo to memoize the query function only if db or watchesCollectionRef changes
+  const getWatchesQuery = useMemo(
+    () => async () => {
       try {
-        const data = await getDocs(watchesCollectionRef);
-        const filteredData = data.docs.map((doc) => ({
+        const snapshot = await getDocs(watchesCollectionRef);
+        const filteredData = snapshot.docs.map((doc) => ({
           ...(doc.data() as IWatch),
-          id: doc.id,
+          id: doc.id
         }));
-        console.log('filteredData', filteredData);
         setWatches(filteredData);
       } catch (error) {
         console.error(error);
       }
-    };
+    },
+    []
+  );
 
-    getWatches();
-  }, [watchesCollectionRef]);
+  useEffect(() => {
+    getWatchesQuery();
+  }, [getWatchesQuery]);
 
   return (
-    <div>
-      {watches.map((watch) => (
-        <div key={watch.id}>
-          <h1>{watch.name}</h1>
-        </div>
-      ))}
+    <div className='flex items-center justify-center h-screen'>
+      <div>
+        <h1 className='text-3xl font-bold underline text-center mb-4'>
+          Select watch
+        </h1>
+        {watches.map((watch) => (
+          <button
+            key={watch.id}
+            className='bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-full m-2'
+            onClick={() => navigate(watch.id)}
+          >
+            {watch.name}
+          </button>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default DeepARComponent;
