@@ -40,7 +40,12 @@ const DeepARComponent = () => {
           canvas: document.getElementById('deepar-canvas'),
           effect: selectedWatch!.url
             .replace('www.dropbox.com', 'dl.dropboxusercontent.com')
-            .replace('dl=0', 'dl=1')
+            .replace('dl=0', 'dl=1'),
+          additionalOptions: {
+            cameraConfig: {
+              facingMode: 'environment'
+            }
+          }
         });
         deepARRef.current = deepAR;
         console.log('deepAR', deepAR);
